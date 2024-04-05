@@ -12,21 +12,23 @@ Globals:
     MemorySize: 128
 
 Resources:
-#  HgchLibLayer:
-#    Type: AWS::Serverless::LayerVersion
-#    Properties:
-#      LayerName: HgchLibLayer
-#      ContentUri: ./layers/ghcn_lib
-#      CompatibleRuntimes:
-#        - python3.9
-#    Metadata:
-#      BuildMethod: python3.9
+  HgchLibLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: HgchLibLayer
+      ContentUri: ./layers/ghcn_lib
+      CompatibleRuntimes:
+        - python3.9
+    Metadata:
+      BuildMethod: python3.9
 
   HgchDailyMonitorFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: ghcn_daily_monitor/
+      CodeUri: function/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:
         - x86_64
+      Layers:
+        - Ref: HgchLibLayer
